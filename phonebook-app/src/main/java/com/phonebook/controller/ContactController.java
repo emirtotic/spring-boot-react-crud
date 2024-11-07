@@ -3,6 +3,7 @@ package com.phonebook.controller;
 import com.phonebook.dto.ContactDTO;
 import com.phonebook.service.ContactService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +32,17 @@ public class ContactController {
         return "Contact deleted.";
     }
 
-    @PutMapping("/update")
-    public ContactDTO updateContact(@RequestBody ContactDTO contactDTO) {
-        return contactService.updateContact(contactDTO);
+    @PatchMapping("/update/{id}")
+    public ContactDTO updateContact(@PathVariable Long id, @RequestBody ContactDTO contactDTO) {
+        return contactService.updateContact(id, contactDTO);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ContactDTO> findContactById(@PathVariable Long id) {
+
+        ContactDTO contactDTO = contactService.findContactById(id);
+
+        return ResponseEntity.ok(contactDTO);
     }
 
 }

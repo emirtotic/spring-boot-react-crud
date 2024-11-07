@@ -33,13 +33,41 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public ContactDTO updateContact(ContactDTO contactDTO) {
+    public ContactDTO updateContact(Long id, ContactDTO contactDTO) {
 
-        Contact contact = contactRepository.findById(contactDTO.getId())
-                .orElseThrow(() -> new RuntimeException("Contact not found with id " + contactDTO.getId()));
+        Contact contact = contactRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Contact not found with id " + id));
         contact = assembleContact(contactDTO);
         contactRepository.save(contact);
         return assembleContactDTO(contact);
+    }
+
+    @Override
+    public ContactDTO updateContact(Long id) {
+
+        Optional<Contact> existingContactOpt = contactRepository.findById(id);
+
+        if (existingContactOpt.isPresent()) {
+            Contact existingContact = existingContactOpt.get();
+            Contact updatedContact = contactRepository.save(existingContact);
+
+            return assembleContactDTO(updatedContact);
+        } else {
+            throw new RuntimeException("Contact with id " + id + " not found");
+        }
+    }
+
+    @Override
+    public ContactDTO findContactById(Long id) {
+        Optional<Contact> contact = contactRepository.findById(id);
+
+        if (contact.isPresent()) {
+
+            return assembleContactDTO(contact.get());
+        } else {
+            throw new RuntimeException("Contact with id " + id + " not found");
+        }
+
     }
 
     @Override

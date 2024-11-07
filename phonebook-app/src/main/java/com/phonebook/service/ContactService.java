@@ -8,7 +8,9 @@ public interface ContactService {
 
     List<ContactDTO> findAll();
     ContactDTO addNewContact(ContactDTO contactDTO);
-    ContactDTO updateContact(ContactDTO contactDTO);
+    ContactDTO updateContact(Long id, ContactDTO contactDTO);
+    ContactDTO updateContact(Long id);
+    ContactDTO findContactById(Long id);
     ContactDTO findByNameAndSurname(String name, String surname);
     ContactDTO findByEmail(String email);
     ContactDTO findByPhone(String phone);
