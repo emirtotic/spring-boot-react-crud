@@ -4,11 +4,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
 
 
 const Dashboard =() => {
 
     const [contacts, setContacts] = useState([]);
+    const navigate = useNavigate();
 
     useEffect( () => {
         const fetchContacts = async () => {
@@ -25,6 +27,10 @@ const Dashboard =() => {
         fetchContacts();
 
     },[]);
+
+    const handleUpdate = (contactId) => {
+        navigate(`/contacts/${contactId}`);
+    }
 
     const handleDelete = async (contactId) => {
         try {
@@ -68,7 +74,7 @@ const Dashboard =() => {
                                     <td>{contact.email}</td>
                                     <td>{contact.phone}</td>
                                     <td>
-                                        <Button variant="outline-secondary">Update</Button>{" "}
+                                        <Button variant="outline-secondary" onClick={() => handleUpdate(contact.id)}>Update</Button>
                                         <Button variant="outline-danger" onClick={() => handleDelete(contact.id)}>Delete</Button>
                                     </td>
                                 </tr>
